@@ -51,7 +51,35 @@ td.num, th.num {
     max-height: 140px !important;
 }
 
-/* 👇👇 ADD THESE NEW RULES HERE 👇👇 */
+.contact-footer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px dashed #ccc;
+    font-size: 13px;
+    color: #444;
+}
+
+.contact-item {
+    margin-bottom: 6px;
+}
+
+.contact-item a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contact-item a:hover {
+    text-decoration: underline;
+}
+
+.contact-credit {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: #666;
+    line-height: 1.4;
+}
+    /* 👇👇 ADD THESE NEW RULES HERE 👇👇 */
 
 #pieIncome {
     max-height: 220px !important;
@@ -2046,6 +2074,25 @@ function computeAndShowMatch({ tisSalary, tisSavings, tisDividend, itrSalary, it
   else pct = Math.min(100, (itrTotal / tisTotal) * 100);
 
   pct = Math.round(pct * 10) / 10;
+
+    <div class="contact-footer mt-4">
+  <div class="contact-item">
+    📧 <b>Contact:</b>
+    <a href="mailto:Praveencaai@gmail.com">Praveencaai@gmail.com</a>
+  </div>
+
+  <div class="contact-item">
+    🌐 <b>About:</b>
+    <a href="https://praveenkadiyalabio.netlify.app/" target="_blank">
+      praveenkadiyalabio.netlify.app
+    </a>
+  </div>
+
+  <div class="contact-credit">
+    ⚡ Tool developed by <b>CA Praveen Kadiyala</b><br>
+    🏆 ICAI AI Hackathon – Grand Finale Use Case
+  </div>
+</div>
 
   // Update UI Badge
   const badge = document.getElementById('tisMatchBadge');
