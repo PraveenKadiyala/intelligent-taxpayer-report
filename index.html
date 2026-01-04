@@ -355,6 +355,12 @@ body {
     Enhanced taxpayer <span class="hl-letter">L</span>iteracy and <span class="hl-letter">D</span>ecision making
 </div>
 
+    <div class="alert alert-warning mt-3">
+        <b>Disclaimer:</b> This tool processes ITR JSON files entirely in your browser.
+          No data is uploaded or stored. This is for educational and analytical purposes
+          only and does not constitute tax advice.
+    </div>
+
 </div>
   <p class="upload-note">Upload up to 3 ITR JSON files (ITR-1 / ITR-2) to generate your 3-year tax insights.</p>
 
@@ -890,7 +896,7 @@ async function generateAutoSummary() {
     const autoSummaryBox = document.getElementById('autoSummary');
     
     if (!hiddenEndpoint || !hiddenApiKey) {
-        autoSummaryBox.innerHTML = 'Automated narrative summary requires Gemini API credentials (ALT+SHIFT+A). Default comparative metrics are available in the table.';
+        autoSummaryBox.innerHTML = 'To enable AI-generated insights, press <b>ALT + SHIFT + A</b> and enter your own Gemini API key. Default comparative metrics are available in the table.';
         return;
     }
 
