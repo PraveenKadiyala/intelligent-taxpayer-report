@@ -1,0 +1,2076 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ITR Comparative — Final (Validated, Styled)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.179/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+/* Custom Styles from User */
+body { padding:18px; background:#fafafa; font-family:Inter, Arial, sans-serif; color:#222; }
+.table thead th {
+    background: #003366 !important;   /* Dark blue */
+    color: #ffffff !important;        /* White text */
+    font-weight: 700 !important;      /* Bold */
+    text-align: left;
+    border-color: #002244 !important; /* Slightly darker border */
+}
+#comparisonTable thead tr th {
+    background-color: #003366 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-align: center;
+}
+/* Right align all numeric table cells (including totals) */
+td.num, th.num {
+    text-align: right !important;
+}
+.row-red td { color:#b00 !important; font-weight:700; }
+.row-green td { color:green !important; font-weight:700; }
+.row-grey td {
+    background: #f2f2f2 !important;
+    font-weight: 600;
+}
+.deduct-drop {
+    background: #ffe5e5 !important;
+    color: #b30000;
+    font-weight: 600;
+}
+
+/* Chart Sizing Adjustments */
+.chart-card {
+    min-height: 200px; 
+    max-height: 200px;
+}
+.chart-card canvas {
+    max-height: 140px !important;
+}
+
+/* 👇👇 ADD THESE NEW RULES HERE 👇👇 */
+
+#pieIncome {
+    max-height: 220px !important;
+}
+
+.chart-card {
+    min-height: 260px !important;
+    max-height: 260px !important;
+}
+
+/* 👆👆 END OF NEW RULES 👆👆 */
+
+/* Expanded table number alignment */
+.subtable td {
+    text-align: right !important;
+}
+
+/* First column (Component label) left aligned */
+.subtable td:first-child {
+    text-align: left !important;
+}
+
+/* Header center aligned */
+.subtable th {
+    text-align: center !important;
+}
+
+body {
+    background: linear-gradient(
+        to bottom,
+        #fff3e0 0%,
+        #ffffff 40%,
+        #e8f5e9 100%
+    );
+    font-family: "Roboto", Arial, sans-serif !important;
+    padding: 18px;
+}
+
+/* Improve full Comparative Table readability */
+#comparisonTable {
+    font-size: 20px !important;         /* Increase font size */
+    line-height: 1.4 !important;       /* Better vertical spacing */
+}
+
+#comparisonTable td,
+#comparisonTable th {
+    padding: 6px 8px !important;      /* Increase row padding */
+}
+
+/* Header row upgrade */
+#comparisonTable thead th {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+/* Row labels (left-most column) */
+#comparisonTable tbody td:first-child {
+    font-weight: 700 !important;
+    font-size: 19px !important;
+}
+
+/* Sub-tables (expanded sections) */
+.subtable {
+    font-size: 16px !important;
+}
+.subtable td, .subtable th {
+    padding: 8px 10px !important;
+}
+
+/* Grey background for Form Name & Tax Regime rows */
+.row-grey-lite td {
+    background: #f2f2f2 !important;
+    font-weight: 600 !important;
+}
+
+/* Align values of Form Name & Tax Regime to the right */
+.formname-cell, 
+.taxregime-cell {
+    text-align: right !important;
+    font-weight: 600 !important;
+}
+
+/* ------------------------------
+   STATIC PREMIUM BANNER (No Scroll)
+------------------------------ */
+
+.itr-banner-static {
+    width: 100%;
+    padding: 25px 10px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 25px;
+
+    /* Gorgeous animated gradient background */
+    background: linear-gradient(
+        90deg,
+        #003366,
+        #00509e,
+        #0074d9,
+        #00509e,
+        #003366
+    );
+    background-size: 300% 300%;
+    animation: bannerGlow 10s ease infinite;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes bannerGlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.itr-title {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: white;
+    text-transform: uppercase;
+}
+
+.itr-letter {
+    color: #ffd700;  /* GOLD */
+    text-shadow: 
+        0 0 6px #ffdd55,
+        0 0 10px #ffcc00;
+}
+
+.itr-tagline {
+    margin-top: 5px;
+    font-size: 18px;
+    color: #f1f1f1;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+    text-transform: none;
+    opacity: 0.95;
+}
+
+.hl-letter {
+    color: #ffd700;        /* Gold highlight */
+    font-weight: 800;
+    text-shadow: 
+        0 0 6px #ffdd55,
+        0 0 12px #ffcc00;
+}
+
+#tisMatchBadge div:first-child {
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.15);
+}
+
+.tis-mismatch {
+    color: #b00000;
+    font-weight: 600;
+}
+
+.upload-note {
+    font-size: 22px !important;     /* Bigger text */
+    font-weight: 600 !important;    /* Darker/bolder */
+    color: #1a1a1a !important;      /* Dark grey (easier on the eyes than pure black) */
+    margin-bottom: 18px;
+    letter-spacing: 0.3px;          /* Slight spacing for premium look */
+}
+
+/* Bold ALL Total column values */
+#comparisonTable tbody tr td:last-child {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+/* Grey background like GTI & NetWorth rows */
+.pct-row {
+    background: #f2f2f2 !important;
+}
+
+/* Left align the first column only */
+.pct-row td:first-child {
+    text-align: left !important;
+    font-weight: 700;
+}
+
+/* Right align numeric columns */
+.pct-row td {
+    text-align: right !important;
+    font-weight: 600;
+}
+
+/* Arrow colors */
+.pct-green {
+    color: #008000 !important;
+    font-weight: 700 !important;
+}
+
+.pct-red {
+    color: #b30000 !important;
+    font-weight: 700 !important;
+}
+
+/* Force grey background for % rows (Overrides Bootstrap completely) */
+#comparisonTable tbody tr.pct-row td {
+    background-color: #f2f2f2 !important;
+}
+
+/* Increase font size for first-column labels from Form Name → NetWorth YoY */
+#comparisonTable tbody tr td:first-child {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #222 !important;
+}
+/* Make Automated Summary text bigger, justified, and fully black */
+#autoSummary {
+    font-size: 18px !important;
+    color: #000 !important;
+    text-align: justify !important;
+    line-height: 1.45 !important;
+}
+
+/* Bold ONLY the Conclusion heading */
+#autoSummary b.conclusion-title {
+    font-weight: 800 !important;
+    font-size: 18.5px !important;
+}
+
+
+/* Main summary box */
+#autoSummary {
+    font-size: 18px !important;
+    color: #000 !important;
+    text-align: justify !important;
+    line-height: 1.55 !important;
+}
+
+/* Headings Styling */
+.section-title {
+    font-weight: 900 !important;
+    font-size: 20px !important;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.summary-title {
+    color: #1a1a1a !important;
+}
+
+.reco-title {
+    color: #444 !important;
+}
+
+.concl-title {
+    color: #0b64d4 !important;   /* NICE BLUE */
+    text-shadow: 0px 0px 2px #ffa500;  /* subtle orange glow */
+}
+
+/* Bold conclusion lines */
+.concl-line {
+    font-weight: 700 !important;
+    color: #000 !important;
+}
+
+/* Control width of first column (Particulars) */
+#comparisonTable td:first-child,
+#comparisonTable th:first-child {
+    width: 280px !important;        /* Reduce width */
+    max-width: 280px !important;    /* Prevent stretching */
+    white-space: nowrap !important; /* Keep items on one line */
+}
+
+.deduct-jump {
+    background: #e4ffe4 !important;   /* Light green */
+    color: #006600 !important;        /* Dark green text */
+    font-weight: 700 !important;
+}
+
+
+/* Small styling for TIS badge */
+#tisMatchBadge small { color: #666; }
+.tis-mismatch { color: #b30000; font-weight:600; }
+.tis-match { color: #1a8a00; font-weight:600; }
+
+
+.small-muted { color:#6c757d; font-size:0.9rem; }
+.expand-btn { cursor:pointer; color:#0d6efd; font-weight:600; }
+.subtable { background:#fbfbfb; padding:8px; border-radius:6px; }
+.controls { margin-bottom:12px; }
+#aiResponse { white-space:pre-wrap; min-height:120px; padding:10px; background:#fff; border:1px solid #ddd; border-radius:6px; }
+#summaryBox { background:#111; color:#fff; padding:10px; border-radius:6px; min-height:120px; }
+.pdf-note { font-size:0.9rem; color:#444; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="container">
+<!-- FANCY SCROLLING TITLE -->
+<div class="itr-banner-static">
+    <div class="itr-title">
+        <span class="itr-letter">I</span>ntelligent 
+        <span class="itr-letter">T</span>axpayer 
+        <span class="itr-letter">R</span>eport
+    </div>
+    <div class="itr-tagline">
+    Enhanced taxpayer <span class="hl-letter">L</span>iteracy and <span class="hl-letter">D</span>ecision making
+</div>
+
+</div>
+  <p class="upload-note">Upload up to 3 ITR JSON files (ITR-1 / ITR-2) to generate your 3-year tax insights.</p>
+
+  <div class="row controls g-3 align-items-center">
+
+    <!-- LEFT SIDE: Original ITR JSON Upload -->
+    <div class="col-md-4">
+        <input id="fileInput" type="file" class="form-control" accept=".json" multiple />
+        <div class="small-muted">Upload up to 3 ITR JSON files</div>
+    </div>
+
+    <!-- CENTER BUTTONS -->
+    <div class="col-md-5 d-flex justify-content-start gap-2">
+        <button id="processBtn" class="btn btn-primary">Process</button>
+        <button id="downloadCSV" class="btn btn-outline-secondary">Download CSV</button>
+        <button id="downloadPDF" class="btn btn-outline-success">Download PDF (Client)</button>
+    </div>
+
+    <!-- RIGHT SIDE: TIS UPLOAD + MATCH SCORE -->
+    <div class="col-md-3 text-end">
+
+        <!-- Upload TIS PDF -->
+        <label class="btn btn-outline-primary mb-2" style="padding:6px 12px; cursor:pointer;">
+            Upload TIS (PDF)
+            <input id="tisPdfInput" type="file" accept="application/pdf" style="display:none" />
+        </label>
+
+        <!-- Match Score Badge -->
+        <div id="tisMatchBadge" style="display:none; margin-top:6px;">
+            <div style="
+                background:#003366;
+                color:white;
+                padding:10px 12px;
+                border-radius:10px;
+                font-size:22px;
+                font-weight:800;
+                text-align:right;
+            ">
+                TIS–ITR Match: <span id="tisMatchPct">--%</span>
+            </div>
+
+            <!-- Breakdown -->
+            <div id="tisMatchDetails" style="font-size:0.9rem; margin-top:6px; color:#333; text-align:right;"></div>
+        </div>
+
+    </div>
+</div>
+
+  <div id="status" class="mb-2 small-muted"></div>
+
+  <div id="mainArea" style="display:none;">
+    <div class="table-responsive mb-3">
+      <table id="comparisonTable" class="table table-bordered table-sm"></table>
+    </div>
+
+<div class="row g-3 mb-3 text-center">
+
+    <div class="col-4 chart-card">
+        <div class="card p-2 shadow-sm h-100">
+            <h6 class="small"><b>Gross Total Income (Bar)</b></h6>
+            <canvas id="barGTI"></canvas>
+        </div>
+    </div>
+
+    <div class="col-4 chart-card">
+        <div class="card p-2 shadow-sm h-100">
+            <h6 class="small"><b>Cumulative NetWorth (Line)</b></h6>
+            <canvas id="lineNetworth"></canvas>
+        </div>
+    </div>
+
+    <div class="col-4 chart-card">
+        <div class="card p-2 shadow-sm h-100">
+            <h6 class="small"><b>Income Composition (Pie)</b></h6>
+            <canvas id="pieIncome"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<div class="card p-3 mt-3 shadow-sm">
+    <h5><b>Automated Summary (Expert Tax View)</b></h5>
+    <div id="autoSummary" class="small-muted">
+        Summary will appear here after processing the JSON files...
+    </div>
+</div>
+
+<div class="row g-3 mt-3">
+    <div class="col-lg-12">
+        <div class="card p-3 shadow-sm">
+            <h6><b>Ask Gemini (hidden credentials)</b></h6>
+            <input id="userQ" class="form-control" placeholder="Ask about the table (sanitized)..." />
+            <div class="d-flex gap-2 mt-2">
+                <button id="askBtn" class="btn btn-primary">Ask Gemini</button>
+                <button id="clearAI" class="btn btn-outline-secondary">Clear</button>
+            </div>
+            <div id="aiResponse" class="mt-3">Awaiting your question...</div>
+            <div class="small-muted pdf-note">Note: API credentials are never embedded into the PDF (Clean Client PDF).</div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card p-3 shadow-sm">
+          <h6><b>Sanitized Summary sent to AI</b></h6>
+          <pre id="summaryBox">No summary yet</pre>
+        </div>
+    </div>
+</div>
+
+    <div class="row mt-3">
+      <div class="col-lg-12">
+        <div class="card p-3 shadow-sm" id="notesCard">
+          <h6><b>Notes & Estimates</b></h6>
+          <div class="small-muted">
+<ul>
+    <li><b>Other Sources Breakdown:</b> Includes Savings Bank Interest, Dividend income, and other residual income components.</li>
+
+    <li><b>Salaries Breakdown:</b> Includes Gross Salary, exemptions such as HRA (10(13A)), LTA (10(5)), 10(14) allowances, other eligible exemptions, and Deduction u/s 16.</li>
+
+    <li><b>Capital Gains:</b> Categorized into STCG (Short-Term Capital Gains) and LTCG (Long-Term Capital Gains) based on the period of holding.</li>
+
+    <li><b>Net Worth Estimate:</b> Computed as 60% of (Gross Total Income – Net Tax Liability). This assumes approx. 40% expenses; actual savings may differ per individual.</li>
+
+    <li><b>Deduction Drop Highlighting:</b> If the same tax regime is chosen in consecutive years and deductions decrease, the table highlights this for better tax planning awareness.</li>
+
+    <li><b>Deduction Increase Highlighting:</b> A GREEN highlight appears when deductions double compared to the previous year, or when the previous year value is zero and the current year shows a positive amount.</li>
+
+    <li><b>Salary Exemption Highlighting:</b>
+        <br>• HRA, LTA, and Other Exemptions follow the same-rule deduction logic (drop only in same regime, jump if doubled or new).
+        <br>• <b>10(14) allowances</b> are highlighted for drops irrespective of tax regime, because they apply under both Old and New Regime.</li>
+
+    <li style="margin-top:10px;"><b>Popular Chapter VI-A Deductions (Old Regime & Selectively in New Regime):</b><br>
+        • <b>Section 80C</b> (Limit ₹1,50,000): Includes LIC, PF, PPF, ELSS, NSC, Sukanya Samriddhi Yojana, Home Loan Principal, Tuition Fees.<br>
+        • <b>Section 80D</b>: Individuals can claim ₹25,000; senior parents add up to another ₹50,000.<br>
+        • <b>Section 80CCD(1B)</b>: Additional ₹50,000 exclusively for NPS Tier-I contributions.<br>
+        • <b>Section 80CCD(2)</b>: Employer’s NPS contribution (available in both regimes, subject to % of salary limits).
+    </li>
+
+    <li style="margin-top:12px;"><b>Old vs New Tax Regime Awareness:</b><br>
+        • Old Regime allows exemptions like HRA, LTA and most Chapter VI-A deductions.<br>
+        • New Regime disallows most exemptions but offers lower tax rates; only 80CCD(2) employer NPS deduction is allowed.
+    </li>
+
+    <li style="margin-top:12px;"><b>Tax Planning Tip:</b> Compare your yearly deductions (80C, 80D, NPS, HRA, etc.) before choosing a regime. If deductions are high, Old Regime may reduce tax; fewer deductions usually favour New Regime.</li>
+
+    <li style="margin-top:12px;"><b>Income Diversification Note:</b> Heavy dependence on salary income may limit tax efficiency. Consider eligible investments, long-term capital assets, and tax-advantaged instruments.</li>
+</ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 small-muted"> </div>
+</div>
+
+<div id="secretModal" style="display:none; position:fixed; bottom:6%; right:4%; width:420px; background:white; padding:14px; border:1px solid #ccc; z-index:9999; border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,0.12);">
+  <h6 style="margin:0 0 8px 0;">Enter Gemini 2.5 Flash (hidden)</h6>
+  <input id="secretEndpoint" class="form-control mb-2" placeholder="Endpoint (paste exact)" />
+  <input id="secretKey" type="password" class="form-control mb-2" placeholder="API Key (hidden)" />
+  <div class="d-flex gap-2">
+    <button class="btn btn-primary" onclick="saveSecret()">Save</button>
+    <button class="btn btn-outline-secondary" onclick="closeSecret()">Close</button>
+  </div>
+  <div class="small-muted mt-2">Endpoint example: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent</div>
+</div>
+
+<script>
+/* -------------------------
+  Hidden API credentials (memory only)
+-------------------------*/
+let hiddenEndpoint = "";
+let hiddenApiKey = "";
+document.addEventListener('keydown', function(e) {
+  if (e.altKey && e.shiftKey && e.key.toUpperCase() === 'A') {
+    e.preventDefault();
+    document.getElementById('secretModal').style.display = 'block';
+  }
+});
+function saveSecret() {
+  hiddenEndpoint = document.getElementById('secretEndpoint').value.trim();
+  hiddenApiKey = document.getElementById('secretKey').value.trim();
+  document.getElementById('secretModal').style.display = 'none';
+  alert('✔ Gemini credentials saved in memory (hidden).');
+}
+function closeSecret(){ document.getElementById('secretModal').style.display='none'; }
+
+/* -------------------------
+  Utility helpers
+-------------------------*/
+function formatBracket(v){
+    if (!v || v <= 0) return '-';
+    // Format positive numbers in parentheses for exemptions/deductions
+    return '(' + Number(v).toLocaleString('en-IN') + ')';
+}
+
+function get(obj, path) {
+  if (!obj || !path) return undefined;
+  const parts = path.split('.');
+  let cur = obj;
+  for (const p of parts) {
+    if (!cur || typeof cur !== 'object') return undefined;
+    if (p in cur) cur = cur[p]; else return undefined;
+  }
+  return cur;
+}
+function toNum(v) {
+  if (v === null || v === undefined) return null;
+  if (typeof v === 'number') return v;
+  const s = String(v).replace(/[^0-9.-]/g, '');
+  const n = Number(s);
+  return isNaN(n) ? null : n;
+}
+function formatN(v) { return v === null || v === undefined ? '-' : Number(v).toLocaleString('en-IN'); }
+function normalizeFormName(v) {
+  if (!v) return '-';
+  v = String(v).toUpperCase();
+  if (v.includes('ITR2') || v === '2' || v.includes('ITR 2')) return 'ITR-2';
+  if (v.includes('ITR1') || v === '1' || v.includes('ITR 1')) return 'ITR-1';
+  return v;
+}
+
+function canvasToWhiteJPEG(canvas) {
+    const whiteCanvas = document.createElement('canvas');
+    whiteCanvas.width = canvas.width;
+    whiteCanvas.height = canvas.height;
+
+    const ctx = whiteCanvas.getContext('2d');
+
+    // Fill with white background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, whiteCanvas.width, whiteCanvas.height);
+
+    // Draw chart over white
+    ctx.drawImage(canvas, 0, 0);
+
+    return whiteCanvas.toDataURL("image/jpeg", 0.85);
+}
+
+/* -------------------------
+  Mappings (core)
+-------------------------*/
+const map = {
+  AY: ["ITR.ITR1.Form_ITR1.AssessmentYear","ITR.ITR2.Form_ITR2.AssessmentYear"],
+  FormName: ["ITR.ITR1.Form_ITR1.FormName","ITR.ITR2.Form_ITR2.FormName"],
+  TaxRegimePath: ["ITR.ITR1.FilingStatus.OptOutNewTaxRegime","ITR.ITR2.PartA_GEN1.FilingStatus.OptOutNewTaxRegime","ITR.ITR2.FilingStatus.OptOutNewTaxRegime"],
+
+  "Salaries": ["ITR.ITR1.ITR1_IncomeDeductions.IncomeFromSal","ITR.ITR2.ScheduleS.TotIncUnderHeadSalaries"],
+  "House Property": ["ITR.ITR1.ITR1_IncomeDeductions.TotalIncomeOfHP","ITR.ITR2.PartB-TI.IncomeFromHP"],
+  "Capital Gains": ["ITR.ITR2.PartB-TI.CapGain.TotalCapGains","ITR.ITR2.PartB-TI.CapGain"],
+
+  "Other Sources": ["ITR.ITR1.ITR1_IncomeDeductions.IncomeOthSrc","ITR.ITR2.ScheduleOS.IncChargeable"],
+
+  "80C": ["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80C","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80C"],
+  "80D": ["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80D","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80D"],
+  "TotalChapVIADeductions": ["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.TotalChapVIADeductions","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.TotalChapVIADeductions"],
+
+  conditionalDeductions: {
+    "80CCC":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80CCC","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80CCC"],
+    "80CCD(1)":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80CCDEmployeeOrSE","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80CCDEmployeeOrSE"],
+    "80CCD(1B)":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80CCD1B","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80CCD1B"],
+    "80CCD(2)":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80CCDEmployer","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80CCDEmployer"],
+    "80TTA":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80TTA","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80TTA"],
+    "80G":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80G","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80G"],
+    "80GG":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80GG","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80GG"],
+    "80GGA":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80GGA","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80GGA"],
+    "80DDB":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80DDB","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80DDB"],
+    "80U":["ITR.ITR1.ITR1_IncomeDeductions.DeductUndChapVIA.Section80U","ITR.ITR2.ScheduleVIA.DeductUndChapVIA.Section80U"]
+  },
+
+  NetTaxLiability: ["ITR.ITR1.ITR1_TaxComputation.NetTaxLiability","ITR.ITR2.PartB_TTI.ComputationOfTaxLiability.NetTaxLiability"],
+  RefundDue: ["ITR.ITR1.Refund.RefundDue","ITR.ITR2.PartB_TTI.Refund.RefundDue"],
+
+  // capital gains (detailed attempt)
+  STCG: ["ITR.ITR2.ScheduleCGFor23.ShortTermCapGainFor23.TotalSTCG","ITR.ITR2.PartB-TI.CapGain.ShortTerm"],
+  LTCG: ["ITR.ITR2.ScheduleCGFor23.LongTermCapGain23.TotalLTCG","ITR.ITR2.PartB-TI.CapGain.LongTerm"]
+};
+
+/* -------------------------
+  Globals
+-------------------------*/
+let finalData = null;
+let sortedYears = null;
+let otherBreakup = null; // per-year {savings, dividend, other}
+let salaryBreakup = null; // per-year {gross, hra, lta, ten14, others, ded16} 
+let capgBreakup = null; // per-year {stcg, ltcg}
+
+/* -------------------------
+  PROCESS
+-------------------------*/
+document.getElementById('processBtn').onclick = async function() {
+  const files = [...document.getElementById('fileInput').files];
+  if (files.length === 0) return alert('Please upload at least 1 JSON file.');
+  if (files.length > 3) return alert('Maximum 3 files allowed.');
+
+  document.getElementById('status').innerText = 'Parsing files...';
+  const parsed = [];
+  for (const f of files) {
+    try {
+      const txt = await f.text();
+      const obj = JSON.parse(txt);
+      obj._filename = f.name;
+      parsed.push(obj);
+    } catch (e) {
+      alert('Invalid JSON: ' + f.name);
+      return;
+     }
+  }
+
+  // derive year per file
+  const items = parsed.map((obj, idx) => {
+    let ayRaw = get(obj, map.AY[0]) || get(obj, map.AY[1]) || '';
+    const m = String(ayRaw).match(/\d{4}/);
+    const year = m ? Number(m[0]) : (2020 + idx);
+    return { year, obj };
+  });
+  items.sort((a,b)=> (a.year||0) - (b.year||0));
+  sortedYears = items.map(x=>x.year);
+
+  // init
+  finalData = {};
+  // ADDED "Tax Regime" to the coreRows array for rendering
+  const coreRows = ["FormName", "Tax Regime", "Salaries","House Property","Capital Gains","Other Sources","Gross Total Income",
+                    "80C","80D","TotalChapVIADeductions","NetTaxLiability","RefundDue","NetWorth"];
+  coreRows.forEach(r=> finalData[r]=[]);
+  // conditional deductions
+  const condKeys = Object.keys(map.conditionalDeductions);
+  condKeys.forEach(k=> finalData[k]=[]);
+  otherBreakup = [];
+  salaryBreakup = [];
+  capgBreakup = [];
+
+  // per year extraction
+  for (const it of items) {
+    const obj = it.obj;
+
+    // ---------------- TAX REGIME LOGIC ----------------
+    let regime = "Old Regime"; // default (for <=2023)
+
+    // Tax regime determination based on AY and OptOut flag
+    if (it.year > 2023) {
+        let optOut =
+            get(obj, map.TaxRegimePath[0]) ||
+            get(obj, map.TaxRegimePath[1]) ||
+            get(obj, map.TaxRegimePath[2]) ||
+            "";
+
+        optOut = String(optOut).trim().toUpperCase();
+
+        if (optOut === "Y" || optOut === "YES" || optOut === "TRUE") regime = "Old Regime";
+        else regime = "New Regime";
+    }
+
+    if (!finalData["Tax Regime"]) finalData["Tax Regime"] = [];
+    finalData["Tax Regime"].push(regime);
+
+    // form name
+    const rawForm = get(obj, map.FormName[0]) || get(obj, map.FormName[1]) || '';
+    finalData.FormName.push(normalizeFormName(rawForm));
+
+    // core numeric fields
+    for (const k of ["Salaries","House Property","Capital Gains","Other Sources","80C","80D","TotalChapVIADeductions","NetTaxLiability","RefundDue"]) {
+      let val = null;
+      const paths = map[k];
+      for (const p of paths) {
+        const v = get(obj, p);
+        if (typeof v !== 'undefined') { val = v; break; }
+      }
+      finalData[k].push(toNum(val));
+    }
+
+    // conditional deductions
+    for (const ck of condKeys) {
+      let val=null;
+      const paths = map.conditionalDeductions[ck];
+      for (const p of paths) {
+        const v = get(obj, p);
+        if (typeof v !== 'undefined') { val = v; break; }
+      }
+      finalData[ck].push(toNum(val));
+    }
+
+    /* -----------------------------
+       Other Sources Breakup (Option B) - REVISED CONSOLIDATED LOGIC
+    -----------------------------*/
+    let savings = 0, dividend = 0;
+    const idx = otherBreakup.length;
+    let otherIncome = 0;
+    
+    // --- ITR-2 Logic ---
+    const schOS = get(obj, "ITR.ITR2.ScheduleOS");
+    if (schOS) {
+        // Correct ITR-2 paths (they exist inside IncOthThanOwnRaceHorse)
+    const osNode = get(schOS, "IncOthThanOwnRaceHorse") || {};
+
+    // Savings Bank Interest
+    savings = toNum(osNode.IntrstFrmSavingBank) || 0;
+
+    // Dividend
+    dividend = toNum(osNode.DividendGross) || 0;
+
+    // Total income chargeable under Other Sources
+    // (This is the amount used at summary level)
+    const totalOther = toNum(finalData["Other Sources"][otherBreakup.length]) || 0;
+
+    // Residual = Total - (Savings + Dividend)
+    otherIncome = totalOther - (savings + dividend);
+    if (otherIncome < 0) otherIncome = 0;
+
+    } else {
+        // --- ITR-1 Logic (Using IncomeOthSrc from core data) ---
+        
+        // 1. Extract known components from ITR-1 array structure
+        const arr1 = get(obj,"ITR.ITR1.ITR1_IncomeDeductions.OthersInc.OthersIncDtlsOthSrc") || get(obj,"ITR.ITR1.ITR1_IncomeDeductions.OthSrc") || get(obj,"ITR.ITR1.ITR1_IncomeDeductions.OthersIncDtls");
+        if (Array.isArray(arr1)) {
+            for (const x of arr1) {
+                const nat = (x.OthSrcNatureDesc || x.SalNatureDesc || '').toString().toUpperCase();
+                const amt = toNum(x.OthSrcOthAmount || x.OthAmount || x.SalOthAmount || x.Amount) || 0;
+                
+                if (nat.includes('DIV')) dividend += amt;
+                else if (nat.includes('SAV')) savings += amt;
+                // Note: The rest (like 'OTH') will contribute to the totalOther but we only explicitly
+                // sum DIV/SAV here to calculate the final residual.
+            }
+        }
+        
+        // 2. Get the final total income for residual calculation (IncomeOthSrc)
+        const totalOther = toNum(finalData["Other Sources"][idx]) || 0;
+
+        // 3. Calculate Residual Income (ITR-1 Formula)
+        otherIncome = totalOther - (dividend + savings);
+        if (otherIncome < 0) otherIncome = 0;
+    }
+    
+    otherBreakup.push({ savings: savings||0, dividend: dividend||0, other: otherIncome||0 });
+    /* -----------------------------
+       Salary Breakup extraction (for expansion) - REVISED ROBUST LOGIC
+    -----------------------------*/
+    let gross = 0, hra=0, lta=0, ten14=0, othersSal=0;
+    
+    // 1. Gross Salary: Consolidated paths
+    gross = toNum(
+        get(obj, "ITR.ITR2.ScheduleS.TotalGrossSalary") || 
+        get(obj, "ITR.ITR1.ITR1_IncomeDeductions.GrossSalary") ||
+        get(obj, "ITR.ITR1.GrossSalary") // Fallback for old ITR-1
+    ) || 0;
+
+    // 2. Total Allowances/Exemptions: Crucial aggregate field for 'Other Exemptions' calculation
+    let totalAllwncExempt = toNum(
+        get(obj, "ITR.ITR2.ScheduleS.AllwncExtentExemptUs10") || // ITR-2 format
+        get(obj, "ITR.ITR1.ITR1_IncomeDeductions.AllwncExemptUs10.TotalAllwncExemptUs10") // ITR-1 format
+    ) || 0;
+
+    // 3. Specific Exemptions Breakdown (HRA, LTA, 10(14))
+    const exArr = 
+        get(obj, "ITR.ITR2.ScheduleS.AllwncExemptUs10.AllwncExemptUs10Dtls") || 
+        get(obj, "ITR.ITR1.ITR1_IncomeDeductions.AllwncExemptUs10.AllwncExemptUs10Dtls") ||
+        []; // Default to empty array if path is undefined
+
+    if (Array.isArray(exArr)) {
+      for (const itx of exArr) {
+        const nat = (itx.SalNatureDesc || '').toString().toUpperCase();
+        // Use the common amount paths from your data structure
+        const amt = toNum(itx.SalOthAmount || itx.OthAmount || itx.Amount || itx.SalAmount) || 0;
+        
+        if (nat.includes('10(13A)')) hra += amt;
+        else if (nat.includes('10(5)')) lta += amt;
+        // Includes both 10(14)(i) and 10(14)(ii)
+        else if (nat.includes('10(14)')) ten14 += amt; 
+      }
+    }
+    
+    // 4. Other Exemptions (Calculated by exclusion)
+    // This ensures 'Other Exemptions' captures the residual amount.
+    othersSal = Math.max(0, totalAllwncExempt - hra - lta - ten14);
+
+    // 5. Deduction u/s 16 (from DeductionUS16 path under ScheduleS/ITR1)
+    let ded16 = toNum(
+        get(obj, "ITR.ITR2.ScheduleS.DeductionUS16") || 
+        get(obj, "ITR.ITR1.ITR1_IncomeDeductions.DeductionUs16")
+    ) || 0;
+
+    salaryBreakup.push({ gross: gross||0, hra: hra||0, lta: lta||0, ten14: ten14||0, others: othersSal||0, ded16: ded16||0 });
+
+    /* -----------------------------
+       Capital Gains breakup
+    -----------------------------*/
+    let stcg = 0, ltcg = 0;
+    const st1 = get(obj, map.STCG[0]) || get(obj, map.STCG[1]) || get(obj,"ITR.ITR2.PartB-TI.CapGain.STCG") || get(obj,"ITR.ITR2.PartB-TI.ShortTermCapGain");
+    const lt1 = get(obj, map.LTCG[0]) || get(obj, map.LTCG[1]) || get(obj,"ITR.ITR2.PartB-TI.CapGain.LTCG") || get(obj,"ITR.ITR2.PartB-TI.LongTermCapGain");
+    if (toNum(st1)!==null) stcg = toNum(st1);
+    if (toNum(lt1)!==null) ltcg = toNum(lt1);
+    // fallback: if both zero but total exists, try split heuristics
+    const capTotal = toNum(finalData["Capital Gains"][finalData["Capital Gains"].length - 1]) || 0;
+    if (!stcg && !ltcg && capTotal) {
+      // put capTotal into LTCG if >0
+      if (capTotal >= 0) ltcg = capTotal;
+      else stcg = capTotal;
+    }
+    capgBreakup.push({ stcg: stcg||0, ltcg: ltcg||0 });
+
+  } // end items loop
+
+  // compute Gross Total Income 
+  const n = finalData.Salaries.length;
+  if (!finalData["Gross Total Income"] || finalData["Gross Total Income"].length === 0) finalData["Gross Total Income"] = [];
+  for (let i=0;i<n;i++) {
+    const s = toNum(finalData.Salaries[i]) || 0;
+    const hp = toNum(finalData["House Property"][i]) || 0;
+    const cg = toNum(finalData["Capital Gains"][i]) || 0;
+    const os = toNum(finalData["Other Sources"][i]) || 0;
+    finalData["Gross Total Income"][i] = s + hp + cg + os;
+  }
+
+  // compute NetWorth row: (GTI - NetTaxLiability) * 0.60
+  for (let i=0;i<n;i++) {
+    const gti = toNum(finalData["Gross Total Income"][i]) || 0;
+    const tax = toNum(finalData["NetTaxLiability"][i]) || 0;
+    const nw = (gti - tax) * 0.6;
+    finalData["NetWorth"][i] = Math.round(nw);
+  }
+
+  // render table & charts etc.
+  renderTable();
+  generateAutoSummary(); // NEW: Now automatically calls the narrative AI summary if API key is set
+  document.getElementById('status').innerText = 'Done.';
+};
+
+/* -------------------------
+  Auto Summary Generation (The Narrative AI Call)
+-------------------------*/
+async function generateAutoSummary() {
+    const summaryBox = document.getElementById('summaryBox').innerText;
+    const autoSummaryBox = document.getElementById('autoSummary');
+    
+    if (!hiddenEndpoint || !hiddenApiKey) {
+        autoSummaryBox.innerHTML = 'Automated narrative summary requires Gemini API credentials (ALT+SHIFT+A). Default comparative metrics are available in the table.';
+        return;
+    }
+
+    autoSummaryBox.innerHTML = 'Generating expert narrative analysis...';
+
+    // Narrative Prompt (Designed for storytelling and impact, concise to 100 lines/tokens)
+    const prompt = `
+You are a Senior Most Indian Tax Consultant specializing in individual taxation under the Income-tax Act 1961 and the latest Finance Bill 2025.
+
+Your task:
+1. Read ONLY the 3-year comparative table and the three charts (GTI Bar, NetWorth Line, Income Mix Pie), along with the detailed salary breakup (HRA, LTA, 10(14), other exemptions, and deduction u/s 16) and other source/capital gains breakup.
+2. Use NO external information. All numerical insights must come ONLY from the provided table and charts.
+3. ZERO hallucinations. ZERO assumptions outside the displayed numbers.
+4. You may reference the Income-tax Act 1961 and Finance Bill 2025 ONLY to explain why certain income components, exemptions, or deductions appear or disappear.
+
+CRITICAL TAX RULES YOU MUST APPLY:
+• OLD REGIME (Section 115BAC not opted):
+  – Allows full exemptions such as HRA u/s 10(13A), LTA u/s 10(5), 10(14) allowances, and other salary exemptions.
+  – Allows ALL Chapter VI-A deductions (80C, 80D, 80CCD(1B), 80TTA, 80GG, etc.).
+  – Deduction u/s 16 is allowed as per law.
+  – Therefore: if a year is under OLD regime, missing deductions must be interpreted as “not claimed by the taxpayer,” NOT “not available.”
+
+• NEW REGIME (Section 115BAC):
+  – MOST exemptions and deductions ARE NOT AVAILABLE.
+  – HRA, LTA, 10(14) allowances, and almost all Chapter VI-A deductions are NOT allowed.
+  – ONLY employer NPS contribution u/s 80CCD(2) is allowed.
+  – Standard deduction u/s 16 is allowed as per Finance Bill 2025 revisions.
+  – Therefore: if a year is under NEW regime, missing exemptions/deductions MUST be interpreted as “NOT PERMITTED under 115BAC,” NOT “underutilized.”
+
+• When comparing deductions across years:
+  – You MUST account for regime differences.
+  – You MUST NOT interpret reduced deductions under 115BAC as tax planning inefficiency.
+
+STRUCTURE OF OUTPUT (exact 9 lines):
+● SUMMARY  
+   – Describe movements across Salary, salary breakup components (HRA, LTA, 10(14), Others), Other Sources, Capital Gains, GTI, deductions, tax liability, and Net Worth.
+   – EXPLAIN deduction/exemption changes correctly based on regime:  
+     e.g., “Since 2025 is under New Regime u/s 115BAC, HRA/LTA/80C/80D are not available; hence only 80CCD(2) appears.”
+   – Insights must be number-driven and regime-aware.
+
+● RECOMMENDATIONS  
+   – Provide action-oriented tax planning suggestions tailored to each year's regime.  
+   – If in Old Regime → suggest optimizing unused exemptions/deductions (HRA, 80C, 80D, 80CCD(1B), etc.).  
+   – If in New Regime → suggest NPS Tier-I contributions (80CCD(1B)) or adjusting salary structure in a tax-efficient way (within 115BAC rules).  
+   – Suggest diversification only if Capital Gains and Other Sources are low as seen in the data.
+
+● CONCLUSION  
+   – Summarize Net Worth trend, tax efficiency, income concentration (e.g., salary-heavy), and overall financial health.  
+   – Provide 2–3 concise closing insights or forward-looking guidance.
+
+STRICT RULES:
+• Output MUST be exactly 9 lines (3 summary, 3 recommendations, 3 conclusion).  
+• Each line must be a clear standalone insight.  
+• NEVER treat deductions missing in a New Regime year as underutilization.  
+• ALWAYS factor in salary breakup components (HRA, LTA, 10(14), Others, u/s 16 deduction).  
+• ALWAYS read regime year-by-year and interpret correctly.
+• Entire words should not exceed 200 words.
+
+SUMMARY DATA (3-Year Comparative):
+${summaryBox}
+`;
+
+    try {
+        const url = hiddenEndpoint + '?key=' + encodeURIComponent(hiddenApiKey);
+        const res = await fetch(url, {
+            method:'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] })
+        });
+        
+        if (!res.ok) {
+            const txt = await res.text();
+            autoSummaryBox.innerHTML = `<span class="text-danger">API Error (${res.status}): Failed to generate narrative.</span>`;
+            console.error('Gemini API Error:', txt);
+            return;
+        }
+        
+        const data = await res.json();
+        let reply = 'Analysis failed to return text.';
+        if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text) {
+            reply = data.candidates[0].content.parts[0].text;
+        } else if (data.output_text) reply = data.output_text;
+        
+        /* ---- Advanced formatting for Automated Summary ---- */
+let formatted = reply;
+
+// Replace headings with colored + icons
+formatted = formatted
+  .replace(/●?\s*SUMMARY\s*/i, '<span class="section-title summary-title">⚡ SUMMARY</span><br>')
+  .replace(/●?\s*RECOMMENDATIONS\s*/i, '<span class="section-title reco-title">🎯 RECOMMENDATIONS</span><br>')
+  .replace(/●?\s*CONCLUSION\s*/i, '<span class="section-title concl-title">📌 CONCLUSION</span><br>');
+
+// Bold the 3 conclusion lines (after conclusion heading)
+formatted = formatted.replace(
+  /(📌 CONCLUSION<\/span><br>)([\s\S]*)/i,
+  function (_, heading, content) {
+    let lines = content.split('\n');
+    let bolded = lines.map(line => {
+      if (line.trim().match(/^\d+\./)) {
+        return `<span class="concl-line">${line.trim()}</span>`;
+      }
+      return line.trim();
+    });
+    return heading + bolded.join('<br>');
+  }
+);
+
+// Convert all newlines to <br>
+formatted = formatted.replace(/\n/g, "<br>");
+
+autoSummaryBox.innerHTML = formatted;
+
+    } catch(err) {
+        autoSummaryBox.innerHTML = `<span class="text-danger">Call Error: ${err.message}. Check network or credentials.</span>`;
+    }
+}
+
+/* -------------------------
+  Render table with expansions and Total column
+-------------------------*/
+let barGTIChart = null, lineNetworthChart = null, pieIncomeChart = null;
+function renderTable() {
+  const tbl = document.getElementById('comparisonTable');
+  tbl.innerHTML = '';
+
+  // decide which conditional deductions to show
+  const condKeys = Object.keys(map.conditionalDeductions);
+  const condToShow = condKeys.filter(k => finalData[k] && finalData[k].some(v => v && v > 0));
+
+  // base rows order (ADDED "Tax Regime")
+  const rowsToShow = [
+    "FormName",
+    "Tax Regime",
+    "Salaries",
+    "House Property",
+    "Capital Gains",
+    "Other Sources",
+    "Gross Total Income",
+    "80C",
+    "80D",
+    ...condToShow,
+    "TotalChapVIADeductions",
+    "NetTaxLiability",
+    "RefundDue",
+    "NetWorth"
+  ];
+
+  // header: years + Total column
+  let thead = '<thead><tr><th>Particulars</th>';
+  sortedYears.forEach(y => thead += `<th>${y}</th>`);
+  thead += '<th>Total</th></tr></thead>';
+  tbl.insertAdjacentHTML('beforeend', thead);
+
+  // body
+  let tbody = '<tbody>';
+  for (const r of rowsToShow) {
+    let cls = '';
+   
+    // Set base class for row highlighting
+    if (r === 'NetTaxLiability') cls = 'class="row-red"';
+    else if (r === 'RefundDue') cls = 'class="row-green"';
+    else if (
+    r === 'Gross Total Income' ||
+    r === 'TotalChapVIADeductions' ||
+    r === 'NetWorth'
+) cls = 'class="row-grey"';
+else if (r === 'FormName' || r === 'Tax Regime') cls = 'class="row-grey-lite"';
+
+
+    // special expanders for Salaries, Capital Gains, Other Sources
+    const isSalary = r === 'Salaries';
+    const isCapG = r === 'Capital Gains';
+    const isOther = r === 'Other Sources';
+
+    const expBtn = (isSalary || isCapG || isOther) ? `<span class="expand-btn" data-expanded="false" onclick="toggleExp(this)">[ + ]</span>` : '';
+
+    let displayName = r;
+    if (r === "FormName") displayName = "Form Name";
+    if (r === "TotalChapVIADeductions") displayName = "Total Deductions (VI-A)";
+
+    tbody += `<tr ${cls}><td><b>${displayName}</b> ${expBtn}</td>`;
+
+    // per year cells
+    const vals = finalData[r] || [];
+    for (let i=0;i<sortedYears.length;i++) {
+        let cellContent = '-';
+        let cellClass = "";
+       
+        const currentRegime = finalData["Tax Regime"][i];
+        const isDeduction = r.startsWith("80") || r === "TotalChapVIADeductions";
+
+        // 1. FormName (text)
+        if (r === 'FormName' || r === 'Tax Regime') {
+            cellContent = vals[i] || '-';
+        }
+        // 2. Numeric rows
+        else {
+            const v = typeof vals[i] !== 'undefined' && vals[i] !== null ? vals[i] : null;
+            cellContent = v === null ? '-' : formatN(v);
+           
+            // 🔹 Enhanced Deduction Highlight Logic
+if (isDeduction && i > 0) {
+    const prev = toNum(vals[i - 1]) || 0;
+    const curr = toNum(vals[i]) || 0;
+    const prevRegime = finalData["Tax Regime"][i - 1];
+
+    // 1️⃣ Deduction DROP (only when SAME regime & drop)
+    if (currentRegime === prevRegime && curr < prev) {
+        cellClass = 'deduct-drop';
+    }
+
+    // 2️⃣ Deduction JUMP (double OR previous=0 → now positive)
+    if ((prev > 0 && curr >= 2 * prev) || (prev === 0 && curr > 0)) {
+        cellClass = 'deduct-jump';
+    }
+}
+        }
+
+        // render cell
+// Text rows: left-aligned
+const isText = (r === 'FormName' || r === 'Tax Regime');
+
+// Custom class for right alignment of their values
+let specialAlign = "";
+if (r === "FormName") specialAlign = "formname-cell";
+if (r === "Tax Regime") specialAlign = "taxregime-cell";
+
+
+// Apply right alignment only for numeric rows
+const alignClass = isText ? "" : "num";
+
+tbody += `<td class="${alignClass} ${cellClass} ${specialAlign}">${cellContent}</td>`;
+    }
+    
+    // Total column
+    let total = '';
+    if (["Salaries","House Property","Capital Gains","Other Sources","Gross Total Income","TotalChapVIADeductions","NetTaxLiability","RefundDue","NetWorth"].includes(r)) {
+      let sum = 0;
+      for (let i=0;i<sortedYears.length;i++) sum += toNum(finalData[r][i]) || 0;
+      total = formatN(sum);
+    } else total = '-';
+
+   tbody += `<td class="num">${total}</td></tr>`;
+
+/* ================================
+   INSERT % CHANGE FOR GTI HERE
+   ================================ */
+if (r === "Gross Total Income") {
+    let pctRow = '<tr class="pct-row"><td><b>% Change (YoY)</b></td>';
+
+    const gti = finalData["Gross Total Income"];
+    for (let i = 0; i < gti.length; i++) {
+        if (i === 0) {
+            pctRow += `<td>-</td>`;
+            continue;
+        }
+
+        const prev = gti[i - 1] || 0;
+        const curr = gti[i] || 0;
+
+        let pct = prev === 0 ? 0 : ((curr - prev) / prev) * 100;
+        pct = Math.round(pct * 10) / 10;
+
+        const isUp = pct >= 0;
+        const cls = isUp ? "pct-green" : "pct-red";
+        const arrow = isUp ? "▲" : "▼";
+
+        pctRow += `<td class="${cls}">${arrow} ${pct}%</td>`;
+    }
+
+    pctRow += `<td>-</td></tr>`;
+    tbody += pctRow;
+}
+
+/* ================================
+   INSERT % CHANGE FOR NETWORTH HERE
+   ================================ */
+if (r === "NetWorth") {
+    let pctRow = '<tr class="pct-row"><td><b>% Change (YoY)</b></td>';
+
+    const nw = finalData["NetWorth"];
+    for (let i = 0; i < nw.length; i++) {
+        if (i === 0) {
+            pctRow += `<td>-</td>`;
+            continue;
+        }
+
+        const prev = nw[i - 1] || 0;
+        const curr = nw[i] || 0;
+
+        let pct = prev === 0 ? 0 : ((curr - prev) / prev) * 100;
+        pct = Math.round(pct * 10) / 10;
+
+        const isUp = pct >= 0;
+        const cls = isUp ? "pct-green" : "pct-red";
+        const arrow = isUp ? "▲" : "▼";
+
+        pctRow += `<td class="${cls}">${arrow} ${pct}%</td>`;
+    }
+
+    pctRow += `<td>-</td></tr>`;
+    tbody += pctRow;
+}
+
+    // Expansion Rows (must be kept inside the main loop)
+
+    if (isOther) {
+  let colspan = sortedYears.length + 2;
+  let sub = `<tr class="exp-row" style="display:none;"><td colspan="${colspan}">`;
+  sub += '<div class="subtable">';
+  sub += '<strong>Other Sources — breakdown</strong>';
+
+  sub += '<table class="table table-sm mt-2"><thead><tr><th>Component</th>';
+  sortedYears.forEach(y=> sub += `<th>${y}</th>`);
+  sub += '<th>Total</th></tr></thead><tbody>';
+
+  const addRow = (label, extractor) => {
+    sub += `<tr><td>${label}</td>`;
+    let total = 0;
+    for (let i=0;i<sortedYears.length;i++){
+      const val = extractor(otherBreakup[i]) || 0;
+      total += val;
+      sub += `<td>${formatN(val)}</td>`;
+    }
+    sub += `<td>${formatN(total)}</td></tr>`;
+  };
+
+  addRow("Savings Bank Interest", x => x.savings);
+  addRow("Dividend", x => x.dividend);
+  addRow("Other Income", x => x.other);
+
+  sub += '</tbody></table></div></td></tr>';
+  tbody += sub;
+}
+
+if (isSalary) {
+  let colspan = sortedYears.length + 2;
+  let sub = `<tr class="exp-row" style="display:none;"><td colspan="${colspan}">`;
+  sub += '<div class="subtable">';
+  sub += '<strong>Salaries — breakdown (Exemptions in Brackets)</strong>';
+
+  sub += '<table class="table table-sm mt-2"><thead><tr><th>Component</th>';
+  sortedYears.forEach(y => sub += `<th>${y}</th>`);
+  sub += '<th>Total</th></tr></thead><tbody>';
+
+  // Helper for exemption rows (HRA, LTA, etc.)
+  const addExemptRow = (label, extractor) => {
+    sub += `<tr><td>${label}</td>`;
+    let total = 0;
+
+    for (let i = 0; i < sortedYears.length; i++) {
+        const val = extractor(salaryBreakup[i]) || 0;
+        total += val;
+
+        let cellClass = "";
+        let prev = i > 0 ? (extractor(salaryBreakup[i - 1]) || 0) : null;
+
+        const currRegime = finalData["Tax Regime"][i];
+        const prevRegime = finalData["Tax Regime"][i - 1];
+
+        const isTen14 = label.includes("10(14)");
+
+        // ==========================
+        //  🔴 DROP-LOGIC
+        // ==========================
+        if (i > 0) {
+            if (isTen14) {
+                // 10(14) → ALWAYS apply drop logic, irrespective of regime
+                if (val < prev) cellClass = "deduct-drop";
+            } else {
+                // HRA / LTA / Other Exemptions → only when SAME regime
+                if (currRegime === prevRegime && val < prev) {
+                    cellClass = "deduct-drop";
+                }
+            }
+        }
+
+        // ==========================
+        //  🟢 DOUBLE-INCREASE LOGIC
+        // ==========================
+        if (i > 0 && ((prev > 0 && val >= 2 * prev) || (prev === 0 && val > 0))) {
+            cellClass = "deduct-jump";
+        }
+
+        sub += `<td class="${cellClass}">${formatBracket(val)}</td>`;
+    }
+
+    sub += `<td>${formatBracket(total)}</td></tr>`;
+};
+
+  // Helper for normal rows (Gross Salary)
+  const addNormalRow = (label, extractor) => {
+    sub += `<tr><td>${label}</td>`;
+    let total = 0;
+    for (let i=0; i < sortedYears.length; i++){
+      const val = extractor(salaryBreakup[i]) || 0;
+      total += val;
+      sub += `<td>${formatN(val)}</td>`;
+    }
+    sub += `<td>${formatN(total)}</td></tr>`;
+  };
+
+  // Now build rows
+  addNormalRow("Gross Salary", x => x.gross);
+  addExemptRow("HRA (10(13A))", x => x.hra);
+  addExemptRow("LTA (10(5))", x => x.lta);
+  addExemptRow("10(14) Allowances", x => x.ten14);
+  addExemptRow("Other exemptions", x => x.others);
+  addExemptRow("Deduction u/s 16", x => x.ded16);
+
+  sub += '</tbody></table></div></td></tr>';
+  tbody += sub;
+}
+
+    if (isCapG) {
+  let colspan = sortedYears.length + 2;
+  let sub = `<tr class="exp-row" style="display:none;"><td colspan="${colspan}">`;
+  sub += '<div class="subtable">';
+  sub += '<strong>Capital Gains — breakdown</strong>';
+
+  sub += '<table class="table table-sm mt-2"><thead><tr><th>Component</th>';
+  sortedYears.forEach(y=> sub += `<th>${y}</th>`);
+  sub += '<th>Total</th></tr></thead><tbody>';
+
+  const addRow = (label, extractor) => {
+    sub += `<tr><td>${label}</td>`;
+    let total = 0;
+    for (let i=0;i<sortedYears.length;i++){
+      const val = extractor(capgBreakup[i]) || 0;
+      total += val;
+      sub += `<td>${formatN(val)}</td>`;
+    }
+    sub += `<td>${formatN(total)}</td></tr>`;
+  };
+
+  addRow("Short-Term CG", x => x.stcg);
+  addRow("Long-Term CG", x => x.ltcg);
+
+  sub += '</tbody></table></div></td></tr>';
+  tbody += sub;
+}
+  }
+  tbody += '</tbody>';
+  tbl.insertAdjacentHTML('beforeend', tbody);
+
+  // build charts and summary
+  buildCharts();
+  buildSummary(rowsToShow);
+
+  document.getElementById('mainArea').style.display = 'block';
+}
+
+/* toggle any exp-row */
+function toggleExp(el) {
+  const tr = el.closest('tr');
+  const next = tr.nextElementSibling;
+  let curr = tr.nextElementSibling;
+  const expanded = el.getAttribute('data-expanded') === 'true';
+  if (expanded) {
+    el.innerText = '[ + ]';
+    el.setAttribute('data-expanded','false');
+    while (curr && curr.classList && curr.classList.contains('exp-row')) {
+      curr.style.display = 'none';
+      curr = curr.nextElementSibling;
+    }
+  } else {
+    el.innerText = '[ - ]';
+    el.setAttribute('data-expanded','true');
+    while (curr && curr.classList && curr.classList.contains('exp-row')) {
+      curr.style.display = '';
+      curr = curr.nextElementSibling;
+    }
+  }
+}
+
+/* -------------------------
+  Charts: Bar GTI, Line cumulative NetWorth, Pie Income composition
+-------------------------*/
+function buildCharts() {
+    // destroy old
+    if (barGTIChart) barGTIChart.destroy();
+    if (lineNetworthChart) lineNetworthChart.destroy();
+    if (pieIncomeChart) pieIncomeChart.destroy();
+
+    // colors
+    const darkBlue = "#003366";
+    const lightBlue = "#4da6ff";
+    const axisColor = "#000000";
+
+    /* -----------------------
+       BAR CHART (GTI)
+    ------------------------*/
+    const gti = finalData["Gross Total Income"].map(v => v || 0);
+    const ctxBar = document.getElementById('barGTI').getContext('2d');
+    barGTIChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: sortedYears,
+            datasets: [{
+                label: 'Gross Total Income',
+                data: gti,
+                backgroundColor: darkBlue
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: axisColor } },
+                y: { beginAtZero:true, ticks: { color: axisColor } }
+            }
+        }
+    });
+
+    /* -----------------------
+       LINE CHART (NetWorth)
+    ------------------------*/
+    const nw = finalData["NetWorth"].map(v => v || 0);
+    const cum = [];
+    let s=0;
+    for (let i=0;i<nw.length;i++){ s += nw[i]; cum.push(s); }
+
+    const ctxLine = document.getElementById('lineNetworth').getContext('2d');
+    lineNetworthChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: sortedYears,
+            datasets: [{
+                label: 'Cumulative NetWorth',
+                data: cum,
+                borderColor: darkBlue,
+                backgroundColor: darkBlue,
+                borderWidth: 3,
+                tension: 0.25,
+                pointRadius: 4,
+                pointBackgroundColor: darkBlue
+            }]
+        },
+        options: {
+            plugins:{ legend:{ display:false } },
+            scales:{
+                x:{ ticks:{ color: axisColor }},
+                y:{ ticks:{ color: axisColor }, beginAtZero:true }
+            }
+        }
+    });
+
+    /* -----------------------
+       PIE CHART (Income Mix)
+    ------------------------*/
+    const last = sortedYears.length - 1;
+    const salary = finalData.Salaries[last] || 0;
+    const hp = finalData["House Property"][last] || 0;
+    const cg = finalData["Capital Gains"][last] || 0;
+    const os = finalData["Other Sources"][last] || 0;
+
+    const ctxPie = document.getElementById('pieIncome').getContext('2d');
+    pieIncomeChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels:['Salary','House Property','Capital Gains','Other Sources'],
+            datasets:[{
+                data:[salary,hp,cg,os],
+                backgroundColor:[
+                    darkBlue,
+                    "#ff6b6b",
+                    "#ffa500",
+                    "#ffd24d"
+                ],
+                borderWidth: 1,
+                borderColor: "#ffffff"
+            }]
+        },
+        options: {
+            layout: { padding: 5 },
+            plugins:{
+                legend:{
+                    position:'bottom',
+                    labels:{
+                        boxWidth: 12,   // Smaller box
+                        font:{ size: 10 }  // Smaller font
+                    }
+                }
+            }
+        }
+    });
+}
+
+/* -------------------------
+  Sanitized summary (for AI to read)
+-------------------------*/
+function buildSummary(rowsToShow) {
+    let s = 'FULL SANITIZED SUMMARY (all table & expanded data)\n';
+    s += 'Years: ' + sortedYears.join(' | ') + '\n\n';
+
+    /* --------------------------------
+       1. MAIN TABLE ROWS (every row)
+    ---------------------------------*/
+    for (const r of rowsToShow) {
+
+        // Text rows
+        if (r === 'FormName' || r === 'Tax Regime') {
+            s += `${r}: ${(finalData[r] || []).map(v => v || '-').join(' | ')}\n`;
+            continue;
+        }
+
+        // Other Sources handled separately
+        if (r === 'Other Sources') {
+            s += `Other Sources: ${(finalData['Other Sources'] || []).map(v => v || 0).join(' | ')}\n`;
+            continue;
+        }
+
+        // Numeric rows
+        s += `${r}: ${(finalData[r] || []).map(v => v || 0).join(' | ')}\n`;
+    }
+
+    /* --------------------------------
+       2. OTHER SOURCES BREAKUP
+    ---------------------------------*/
+    s += `\nOTHER SOURCES BREAKUP:\n`;
+    s += `  Savings Bank Interest: ${otherBreakup.map(x => x.savings).join(' | ')}\n`;
+    s += `  Dividend: ${otherBreakup.map(x => x.dividend).join(' | ')}\n`;
+    s += `  Other Income: ${otherBreakup.map(x => x.other).join(' | ')}\n`;
+
+    /* --------------------------------
+       3. SALARY BREAKUP
+    ---------------------------------*/
+    s += `\nSALARY BREAKUP:\n`;
+    s += `  Gross Salary: ${salaryBreakup.map(x => x.gross).join(' | ')}\n`;
+    s += `  HRA (10(13A)): ${salaryBreakup.map(x => x.hra).join(' | ')}\n`;
+    s += `  LTA (10(5)): ${salaryBreakup.map(x => x.lta).join(' | ')}\n`;
+    s += `  10(14) Allowances: ${salaryBreakup.map(x => x.ten14).join(' | ')}\n`;
+    s += `  Other Exemptions: ${salaryBreakup.map(x => x.others).join(' | ')}\n`;
+    s += `  Deduction u/s 16: ${salaryBreakup.map(x => x.ded16).join(' | ')}\n`;
+
+    /* --------------------------------
+       4. CAPITAL GAINS BREAKUP
+    ---------------------------------*/
+    s += `\nCAPITAL GAINS BREAKUP:\n`;
+    s += `  STCG: ${capgBreakup.map(x => x.stcg).join(' | ')}\n`;
+    s += `  LTCG: ${capgBreakup.map(x => x.ltcg).join(' | ')}\n`;
+
+    /* --------------------------------
+       5. CONDITIONAL DEDUCTIONS (80C, 80D, etc.)
+    ---------------------------------*/
+    const condKeys = Object.keys(map.conditionalDeductions);
+    s += `\nDEDUCTIONS UNDER CHAPTER VI-A:\n`;
+    for (const key of condKeys) {
+        if (finalData[key] && finalData[key].some(v => v)) {
+            s += `  ${key}: ${finalData[key].map(v => v || 0).join(' | ')}\n`;
+        }
+    }
+
+    /* --------------------------------
+       6. NET WORTH (existing)
+    ---------------------------------*/
+    s += `\nNET WORTH:\n`;
+    s += `  NetWorth: ${finalData["NetWorth"].map(v => v || 0).join(' | ')}\n`;
+
+    /* --------------------------------
+       7. REFUNDS (optional)
+    ---------------------------------*/
+    s += `\nREFUND:\n`;
+    s += `  RefundDue: ${finalData["RefundDue"].map(v => v || 0).join(' | ')}\n`;
+
+    /* --------------------------------
+       8. ADD TOTALS (per your requirement)
+    ---------------------------------*/
+    s += `\nTOTALS (summed across years):\n`;
+    s += `  Total Salaries: ${finalData["Salaries"].reduce((a,b)=>a+(b||0),0)}\n`;
+    s += `  Total Other Sources: ${finalData["Other Sources"].reduce((a,b)=>a+(b||0),0)}\n`;
+    s += `  Total GTI: ${finalData["Gross Total Income"].reduce((a,b)=>a+(b||0),0)}\n`;
+    s += `  Total NetWorth: ${finalData["NetWorth"].reduce((a,b)=>a+(b||0),0)}\n`;
+
+    /* --------------------------------
+       FINAL SET TO UI
+    ---------------------------------*/
+    document.getElementById('summaryBox').innerText = s;
+}
+
+
+/* -------------------------
+  CSV Export
+-------------------------*/
+document.getElementById('downloadCSV').onclick = function() {
+  if (!finalData) return alert('Nothing to export');
+  const rows = [
+    "FormName", "Tax Regime", "Salaries","House Property","Capital Gains","Other Sources",
+    "Gross Total Income","NetTaxLiability", "RefundDue", "NetWorth"
+  ];
+  let csv = 'Row,' + sortedYears.join(',') + ',Total\n';
+  for (const r of rows) {
+    let vals = (finalData[r]||[]).map(v => {
+      if (r === 'FormName' || r === 'Tax Regime') return v || '-';
+      return v===null ? '' : v;
+    });
+    const total = vals.reduce((acc,cur)=> acc + (toNum(cur)||0), 0);
+    csv += r + ',' + vals.join(',') + ',' + total + '\n';
+  }
+  // Explicit breakups for completeness in CSV
+  csv += 'Savings Bank Interest,' + otherBreakup.map(x=>x.savings||0).join(',') + ',\n';
+  csv += 'Dividend,' + otherBreakup.map(x=>x.dividend||0).join(',') + ',\n';
+  csv += 'Other Income,' + otherBreakup.map(x=>x.other||0).join(',') + ',\n';
+  csv += 'Deduction u/s 16,' + salaryBreakup.map(x=>x.ded16||0).join(',') + ',\n';
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'itr_comparative_export.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+/* ------------------------- 
+  PDF generation (Clean Client PDF)
+-------------------------*/
+document.getElementById('downloadPDF').onclick = async function () {
+  if (!finalData) return alert('Nothing to export');
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('p', 'pt', 'a4');
+
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const margin = 30;
+  const contentWidth = pageWidth - margin * 2;
+
+  /* ---------------------------------------------------------
+     STEP 1: CLONE TABLE ONLY (no charts, no summary, no notes)
+  --------------------------------------------------------- */
+  const clone = document.createElement("div");
+  clone.style.width = "1200px"; /* WIDER so PDF fits clean */
+  clone.style.background = "#fff";
+  clone.style.padding = "20px";
+
+  // header
+  const head = document.createElement("div");
+  head.innerHTML = `<h2>Comparative ITR Summary</h2>
+                    <p>Years: ${sortedYears.join(", ")}</p>`;
+  clone.appendChild(head);
+
+  const table = document.getElementById("comparisonTable").cloneNode(true);
+  table.querySelectorAll(".expand-btn").forEach(e => e.remove());
+  table.querySelectorAll(".exp-row").forEach(r => r.style.display = "table-row");
+  clone.appendChild(table);
+
+  document.body.appendChild(clone);
+
+  /* STEP 2: Capture table and scale to fit one page */
+const tableCanvas = await html2canvas(clone, { scale: 1 });
+const tableImg = tableCanvas.toDataURL("image/jpeg", 0.85);
+
+let imgWidth = contentWidth;
+let imgHeight = (tableCanvas.height * imgWidth) / tableCanvas.width;
+
+// Max height allowed inside page
+const maxHeight = pageHeight - margin * 2;
+
+// If table exceeds page height, scale down
+if (imgHeight > maxHeight) {
+    const scaleFactor = maxHeight / imgHeight;
+    imgWidth = imgWidth * scaleFactor;
+    imgHeight = imgHeight * scaleFactor;
+}
+
+// Add to page — ALWAYS fits in one page now
+pdf.addImage(tableImg, "PNG", margin, margin, imgWidth, imgHeight);
+
+  document.body.removeChild(clone);
+
+  /* ---------------------------------------------------------
+     STEP 4: CHARTS PAGE (always starts on new page)
+  --------------------------------------------------------- */
+pdf.addPage();
+pdf.setFontSize(18);
+pdf.text("Charts", margin, 30);
+
+let yPos = 60;
+const maxChartWidth = contentWidth;      
+// To fit 3 charts vertically, limit individual chart height
+const maxChartHeight = 220;   // Adjusted to keep all 3 visible
+
+/* -------------------------------------------------------------------
+   1) BAR CHART
+------------------------------------------------------------------- */
+pdf.setFontSize(14);
+pdf.text("Gross Total Income (Bar Chart)", margin, yPos);
+yPos += 20;
+
+const barCanvas = document.getElementById("barGTI");
+const barImg = canvasToWhiteJPEG(barCanvas);
+
+// Scale proportionally
+let barH = (barCanvas.height * maxChartWidth) / barCanvas.width;
+if (barH > maxChartHeight) barH = maxChartHeight;
+
+pdf.addImage(barImg, "PNG", margin, yPos, maxChartWidth, barH);
+yPos += barH + 30;
+
+/* -------------------------------------------------------------------
+   2) LINE CHART
+------------------------------------------------------------------- */
+pdf.setFontSize(14);
+pdf.text("Net Worth (Line Chart)", margin, yPos);
+yPos += 20;
+
+const lineCanvas = document.getElementById("lineNetworth");
+const lineImg = canvasToWhiteJPEG(lineCanvas);
+
+let lineH = (lineCanvas.height * maxChartWidth) / lineCanvas.width;
+if (lineH > maxChartHeight) lineH = maxChartHeight;
+
+pdf.addImage(lineImg, "PNG", margin, yPos, maxChartWidth, lineH);
+yPos += lineH + 30;
+
+/* -------------------------------------------------------------------
+   3) PIE CHART
+------------------------------------------------------------------- */
+pdf.setFontSize(14);
+pdf.text("Income Composition (Pie Chart)", margin, yPos);
+yPos += 20;
+
+const pieCanvas = document.getElementById("pieIncome");
+const pieImg = canvasToWhiteJPEG(pieCanvas);
+
+// Pie chart ideal height: 200–250
+let pieH = maxChartHeight;
+pdf.addImage(pieImg, "PNG", margin, yPos, maxChartWidth, pieH);
+
+  /* ---------------------------------------------------------
+     STEP 5: SUMMARY PAGE (new page)
+  --------------------------------------------------------- */
+  pdf.addPage();
+  pdf.setFontSize(14);
+  pdf.text("Automated Summary (Expert Tax View)", margin, 30);
+
+  const summaryCard = document.querySelector("h5>b")?.closest(".card");
+  if (summaryCard) {
+    const temp = summaryCard.cloneNode(true);
+    temp.style.width = "900px";
+    document.body.appendChild(temp);
+
+    const sumCanvas = await html2canvas(temp, { scale: 2 });
+    const sumImg = sumCanvas.toDataURL("image/jpeg", 0.85);
+    const sumH = (sumCanvas.height * contentWidth) / sumCanvas.width;
+
+    pdf.addImage(sumImg, "PNG", margin, 50, contentWidth, sumH);
+    document.body.removeChild(temp);
+  }
+
+  /* ---------------------------------------------------------
+     STEP 6: NOTES PAGE (new page)
+  --------------------------------------------------------- */
+  pdf.addPage();
+  pdf.setFontSize(14);
+  pdf.text("Notes & Estimates", margin, 30);
+
+  const notesCard = document.getElementById("notesCard");
+  if (notesCard) {
+    const tempNotes = notesCard.cloneNode(true);
+    tempNotes.style.width = "900px";
+    document.body.appendChild(tempNotes);
+
+    const notesCanvas = await html2canvas(tempNotes, { scale: 2 });
+    const notesImg = notesCanvas.toDataURL("image/jpeg", 0.85);
+    const notesH = (notesCanvas.height * contentWidth) / notesCanvas.width;
+
+    pdf.addImage(notesImg, "PNG", margin, 50, contentWidth, notesH);
+    document.body.removeChild(tempNotes);
+  }
+
+  /* ---------------------------------------------------------
+     FOOTER
+  --------------------------------------------------------- */
+  pdf.setFontSize(9);
+  pdf.text(
+    "CA Praveen Kadiyala - Contact us for any further queries at Praveencaai@gmail.com.",
+    margin,
+    pageHeight - 20
+  );
+
+  pdf.save("ITR_Comparative_Client.pdf");
+};
+
+/* -------------------------
+  Gemini (hidden) - Ad-hoc Q&A (Restored to concise format)
+-------------------------*/
+document.getElementById('askBtn').onclick = async function() {
+  const q = document.getElementById('userQ').value.trim();
+  if (!q) return alert('Please type a question for Gemini');
+  const summary = document.getElementById('summaryBox').innerText;
+
+// --- AD-HOC Q&A PROMPT (Concise, technical answer) ---
+const prompt = `
+You are a Senior Most Indian Tax Consultant specializing in ITR-1 and ITR-2 under the Income-tax Act 1961 and the latest Finance Bill 2025.
+
+STRICT UPDATED INSTRUCTIONS (VERY IMPORTANT):
+
+1. Your FIRST DUTY is to check whether the user's question can be answered directly from the 
+   3-year comparative table, chart data, salary breakup, other sources breakup, or capital gains breakup.
+
+2. If the required information is NOT AVAILABLE in the data table or breakdown:
+      → THEN move to the SECOND LAYER — refer ONLY to the Income-tax Act 1961 and Finance Bill 2025 
+        (especially Section 115BAC, exemptions, deductions, and core tax rules).
+
+3. If the answer is NOT FOUND even in the Income-tax Act 1961 or Finance Bill 2025:
+      → THEN politely say:
+        "This information is not available in the comparative table or the Income-tax Act 1961 / Finance Bill 2025, 
+         and therefore I cannot provide an answer without making assumptions."
+
+4. DO NOT hallucinate. DO NOT guess beyond the table or the Act/Bill.  
+   No external assumptions, no references to websites, blogs, or general tax practices.
+
+5. All answers MUST be within **5 lines** — sharp, number-backed, and professional.
+
+6. If the user asks “what-if” questions (example: regime change, more deductions, adjusting investments):
+      → Perform ONLY arithmetic based on table values + Act/Bill rules.  
+      → Show the tax impact clearly and briefly.
+
+7. ALWAYS apply regime rules correctly:
+   • OLD REGIME (non-115BAC): allows HRA, LTA, 10(14), 80C, 80D, 80CCD(1B), etc.  
+   • NEW REGIME (115BAC): most exemptions/deductions removed; ONLY 80CCD(2) + Std. deduction allowed.
+
+8. Salary questions must use breakup data: HRA, LTA, 10(14), others, deduction u/s 16.  
+9. Other Sources & Capital Gains questions must use their respective detailed breakups.
+
+10. ZERO hallucinations. ZERO references outside:  
+    Only → (A) Table & charts,  
+          (B) Income-tax Act 1961,  
+          (C) Finance Bill 2025.
+
+------------------------------------------------------
+SUMMARY DATA (3-Year Comparative):
+${summary}
+
+USER QUESTION:
+${q}
+
+Now answer the user's question in **MAX 100 words**, following the updated hierarchy:
+1️⃣ Table & charts  
+2️⃣ If not found → Income-tax Act 1961 & Finance Bill 2025  
+3️⃣ If still not found → Clearly state it is not available in both.
+`;
+
+  if (!hiddenEndpoint || !hiddenApiKey) {
+    document.getElementById('aiResponse').innerText = 'Simulated mode: no credentials saved. Press ALT+SHIFT+A to enter hidden endpoint & key.';
+    return;
+  }
+
+  document.getElementById('aiResponse').innerText = 'Calling Gemini...';
+  try {
+    const url = hiddenEndpoint + '?key=' + encodeURIComponent(hiddenApiKey);
+    const res = await fetch(url, {
+      method:'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] })
+    });
+    if (!res.ok) {
+      const txt = await res.text();
+      document.getElementById('aiResponse').innerText = `API error ${res.status}: ${txt}`;
+      return;
+    }
+    const data = await res.json();
+    let reply = 'No reply';
+    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text) {
+      reply = data.candidates[0].content.parts[0].text;
+    } else if (data.output_text) reply = data.output_text;
+    else reply = JSON.stringify(data, null, 2);
+    
+    // Output only to the AI Response box
+    document.getElementById('aiResponse').innerText = reply; 
+
+  } catch(err) {
+    document.getElementById('aiResponse').innerText = 'Call error: ' + err.message;
+  }
+};
+document.getElementById('clearAI').onclick = ()=> document.getElementById('aiResponse').innerText = 'Awaiting your question...';
+
+/* -----------------------------------------------------------
+   TIS PDF upload & matching (with password support + PDF.js)
+-----------------------------------------------------------*/
+document.getElementById('tisPdfInput').addEventListener('change', async function (e) {
+  const f = e.target.files?.[0];
+  if (!f) return;
+
+  if (!finalData || !sortedYears || sortedYears.length === 0) {
+    alert('Please process your ITR JSONs first (so the comparative table is available).');
+    e.target.value = '';
+    return;
+  }
+
+  // Only compare for latest year (2025 or last year uploaded)
+  const targetYear = Math.max(...sortedYears);
+
+  try {
+    const tisValues = await parseTisPdf(f); 
+    if (!tisValues) throw new Error('TIS parse failed. No table values found.');
+
+    const idx = sortedYears.indexOf(targetYear);
+
+    const itrSalary = Number(salaryBreakup[sortedYears.indexOf(targetYear)]?.gross || 0);
+    const itrSavings = Number(otherBreakup[idx]?.savings || 0);
+    const itrDividend = Number(otherBreakup[idx]?.dividend || 0);
+
+    computeAndShowMatch({
+  tisSalary: tisValues.salary,
+  tisSavings: tisValues.savingsInterest,
+  tisDividend: tisValues.dividend || 0,
+  itrSalary,
+  itrSavings,
+  itrDividend,
+  targetYear
+}, tisValues.rawRows);
+
+  } catch (err) {
+    alert('TIS parse error: ' + err.message);
+    e.target.value = '';
+  }
+});
+
+/* -----------------------------------------------------------------
+   parseTisPdf(file)
+   • Extract Salary + Interest from Savings Bank
+   • Handles password-protected PDFs using PDF.js password callbacks
+-------------------------------------------------------------------*/
+async function parseTisPdf(file) {
+  // --- ALWAYS clone ArrayBuffer before processing ---
+  const originalBuf = await file.arrayBuffer();
+
+  function cloneBuf(buf) {
+    return buf.slice(0); // Creates a NEW valid ArrayBuffer
+  }
+
+  async function loadPdf(password = null) {
+    const freshBuf = cloneBuf(originalBuf);   // NEW buffer for every attempt
+    try {
+      return await pdfjsLib.getDocument({ data: freshBuf, password }).promise;
+
+    } catch (err) {
+      // NEED PASSWORD
+      if (err.name === "PasswordException" ||
+          err.code === pdfjsLib.PasswordResponses.NEED_PASSWORD) {
+
+        const pwd = prompt("This TIS PDF is password protected.\nEnter password:");
+        if (!pwd) throw new Error("Password was not provided.");
+        return await loadPdf(pwd);
+      }
+
+      // WRONG PASSWORD
+      if (err.code === pdfjsLib.PasswordResponses.INCORRECT_PASSWORD) {
+        const pwd = prompt("Incorrect password.\nPlease try again:");
+        if (!pwd) throw new Error("Password was not provided.");
+        return await loadPdf(pwd);
+      }
+
+      throw err;
+    }
+  }
+
+  // --- Load PDF securely with password logic ---
+  const pdf = await loadPdf();
+
+  /* ---------- Extract Text from All Pages ---------- */
+  let fullText = "";
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const page = await pdf.getPage(p);
+    const txt = await page.getTextContent();
+    fullText += " " + txt.items.map(i => i.str).join(" ");
+  }
+
+  const text = fullText.replace(/\s+/g, " ").trim();
+  const textLower = text.toLowerCase();
+
+  const results = { salary: null, savingsInterest: null, rawRows: [] };
+
+  const parseNum = t => Number(String(t).replace(/[^\d]/g, "")) || 0;
+
+  const labels = [
+    { key: "salary", patterns: ["salary"] },
+    { key: "savingsInterest", patterns: ["interest from savings bank", "savings bank interest"] },
+    { key: "dividend", patterns: ["dividend", "dividend income"] }
+  ];
+
+  // Scan & extract values
+  for (const lab of labels) {
+    let idx = -1;
+    for (const pat of lab.patterns) {
+      idx = textLower.indexOf(pat);
+      if (idx !== -1) break;
+    }
+    if (idx === -1) continue;
+
+    const sub = text.substr(idx, 250);
+    const nums = Array.from(sub.matchAll(/[\d,]+/g)).map(m => m[0]);
+
+    if (nums.length >= 1) {
+      const v = parseNum(nums[0]);
+      results.rawRows.push({ label: lab.key, extracted: nums, raw: sub });
+
+      if (lab.key === "salary") results.salary = v;
+      if (lab.key === "savingsInterest") results.savingsInterest = v;
+      if (lab.key === "dividend") results.dividend = v;
+    }
+  }
+
+  // Fallback simple patterns
+  if (!results.salary) {
+    const m = textLower.match(/salary\s+([\d,]+)/);
+    if (m) results.salary = parseNum(m[1]);
+  }
+
+  if (!results.savingsInterest) {
+    const m = textLower.match(/savings\s+bank\s+interest\s+([\d,]+)/);
+    if (m) results.savingsInterest = parseNum(m[1]);
+  }
+
+  if (!results.dividend) {
+    const m = textLower.match(/dividend\s+([\d,]+)/);
+    if (m) results.dividend = parseNum(m[1]);
+  }
+
+  if (!results.salary && !results.savingsInterest && !results.dividend)
+    throw new Error("Unable to detect Salary & Savings Interest & Dividend in TIS PDF.");
+
+  return {
+    salary: results.salary || 0,
+    savingsInterest: results.savingsInterest || 0,
+    dividend: results.dividend || 0,
+    rawRows: results.rawRows
+  };
+}
+
+/* -----------------------------------------------------------------
+   computeAndShowMatch -> Compare TIS vs ITR and show % score
+-------------------------------------------------------------------*/
+function computeAndShowMatch({ tisSalary, tisSavings, tisDividend, itrSalary, itrSavings, itrDividend, targetYear }) {
+  const tisTotal = (tisSalary || 0) + (tisSavings || 0) + (Number(tisDividend) || 0);
+  const itrTotal = (itrSalary || 0) + (itrSavings || 0) + (Number(itrDividend) || 0);
+
+  let pct = 0;
+  if (tisTotal === 0) pct = itrTotal === 0 ? 100 : 0;
+  else pct = Math.min(100, (itrTotal / tisTotal) * 100);
+
+  pct = Math.round(pct * 10) / 10;
+
+  // Update UI Badge
+  const badge = document.getElementById('tisMatchBadge');
+  const pctEl = document.getElementById('tisMatchPct');
+  const details = document.getElementById('tisMatchDetails');
+
+  badge.style.display = 'block';
+  pctEl.innerText = pct + '%';
+
+  const fmt = n => Number(n).toLocaleString('en-IN');
+
+  const salaryOK = tisSalary === itrSalary;
+  const savingOK = tisSavings === itrSavings;
+  const dividendOK = tisDividend === itrDividend;
+
+  details.innerHTML = `
+    <div style="text-align:right;">
+      Salary: ${fmt(tisSalary)} ${salaryOK ? '✓' : `<span class="tis-mismatch">TIS ${fmt(tisSalary)} vs ITR ${fmt(itrSalary)}</span>`}<br>
+      Savings Interest: ${fmt(tisSavings)} ${savingOK ? '✓' : `<span class="tis-mismatch">TIS ${fmt(tisSavings)} vs ITR ${fmt(itrSavings)}</span>`}<br>
+      Dividend: ${fmt(tisDividend)} ${dividendOK ? '✓' : `<span class="tis-mismatch">TIS ${fmt(tisDividend)} vs ITR ${fmt(itrDividend)}</span>`}
+    </div>
+  `;
+
+  badge.onclick = () => {
+    alert(
+      `TIS vs ITR Comparison (${targetYear})\n\n` +
+      `TIS Salary: ${fmt(tisSalary)}\n` +
+      `TIS Savings Interest: ${fmt(tisSavings)}\n` +
+      `TIS Dividend: ${fmt(tisDividend)}\n\n` +
+      `ITR Salary: ${fmt(itrSalary)}\n` +
+      `ITR Savings Interest: ${fmt(itrSavings)}\n` +
+      `ITR Dividend: ${fmt(itrDividend)}\n\n` +
+      `Match Score = ${pct}%`
+    );
+  };
+}
+
+</script>
+</body>
+</html>
